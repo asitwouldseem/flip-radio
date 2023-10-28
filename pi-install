@@ -1,0 +1,31 @@
+Audio: [Adafruit MAX98357 I2S](https://www.adafruit.com/product/3006)
+RTC: [DS3231 Real Time Clock](https://www.jaycar.com.au/rtc-clock-module-for-raspberry-pi/p/XC9044)
+
+# Installation
+## I2S DAC/Amp
+
+## Real Time Clock
+I use a Jaycar-special DS3231 RTC module. There wasn't much documentation out there, but it connects to pins 1,3,5,7 and 9. A real-time clock is possibly overkill given internet-connected and a flip clock. But let's do it anyway.
+
+Open the /boot/config file. I like nano so let's use that. Substitute for your text editor of choice.
+```sudo nano /boot/config.txt```
+
+Add the following line below the i2c_arm line we added when installing the DAC.
+```dtoverlay=i2c-rtc,ds3231```
+
+Check whether the DS3231 is detected. You should get a 'UU' in row 60, column 8.
+```sudo i2cdetect -y 1```
+
+At this point, we now need to instruct the Pi to use the DS3231 as our main clock. Open the hwclock-set file:
+```sudo nano /lib/udev/hwclock-set```
+
+Change the file to this: 
+```
+#if [ -e /run/systemd/system ] ; then
+#    exit 0
+#fi
+
+#/sbin/hwclock --rtc=$dev --systz
+#/sbin/hwclock --rtc=$dev --hctosys
+```
+
