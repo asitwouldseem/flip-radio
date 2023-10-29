@@ -27,7 +27,9 @@ rtc-ds1307
 ```
 
 Check whether the DS3231 is detected. You should get a 'UU' in row 60, column 8.
-```sudo i2cdetect -y 1```
+```
+sudo i2cdetect -y 1
+```
 
 Load the clock at boot. 
 ```
