@@ -1,10 +1,10 @@
 # Getting Started
 ## Components
-- Audio: [Adafruit MAX98357 I2S](https://www.adafruit.com/product/3006)
+- Audio: [Adafruit MAX98357 I<sup>2</sup>S DAC/Amp](https://www.adafruit.com/product/3006)
 - RTC: [DS3231 Real Time Clock](https://www.jaycar.com.au/rtc-clock-module-for-raspberry-pi/p/XC9044)
 
 ## Hardware
-### I2S DAC/Amp
+### I<sup>2</sup>S DAC/Amp
 Follow the Adafruit instructions for now. I'll update later :) 
 
 Be sure to decline the script that runs a blank audio stream as it doesn't allow Squeezelite to access the card directly.
