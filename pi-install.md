@@ -67,7 +67,7 @@ Description=Squeezelite headless streaming music client
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/squeezelite -o hw:CARD=sndrpihifiberry,DEV=0 -s 10.0.1.100 -n Radio -a 80:4                
+ExecStart=/usr/bin/squeezelite -o hw:CARD=sndrpihifiberry,DEV=0 -s 10.0.1.100 -n Radio -a 120:4::0                
 
 [Install]
 WantedBy=multi-user.target
