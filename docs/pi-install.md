@@ -3,6 +3,12 @@
 - Audio: [Adafruit MAX98357 I<sup>2</sup>S DAC/Amp](https://www.adafruit.com/product/3006)
 - RTC: [DS3231 Real Time Clock](https://www.jaycar.com.au/rtc-clock-module-for-raspberry-pi/p/XC9044)
 
+## Software
+We should already have this installed but just to be sure... 
+```
+sudo apt-get install python3-rpi.gpio
+```
+
 ## Hardware
 ### I<sup>2</sup>S DAC/Amp
 Follow the Adafruit instructions for now. I'll update later :) 
@@ -59,7 +65,7 @@ Check to see if the Adafruit DAC is visible to Squeezelite. This command should 
 squeezelite -l
 ```
 
-We'll now modify the service specific to (y)our own streaming setup. The Pi Zero can't handle DSF so we're not going to mess with this. The below configuration works well for my particular setup.
+We'll now modify the service specific to (y)our own streaming setup. The Pi Zero can't handle DSF so we're not going to mess with getting DSD up and running. The below configuration works well for my particular setup.
 ```
 [Unit]
 Description=Squeezelite headless streaming music client
