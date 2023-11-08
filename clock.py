@@ -7,15 +7,20 @@ import asyncio
 
 # Radio Features
 SERVER = '10.0.1.100'
+CLOCK_LED = 12
 
 # Clock Features
 IN1 = 24
 IN2 = 23
 IN3 = 17
 IN4 = 27
+CYCLE_STEPS = 1280
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(CLOCK_LED,GPIO.OUT)
+
+# Setup Stepper Motor
+
 
 # Handle LMS player interactions
 async def main():
