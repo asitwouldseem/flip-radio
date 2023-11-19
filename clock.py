@@ -1,19 +1,19 @@
 #!/usr/bin/python3
 from pysqueezebox import Server, Player
 import RPi.GPIO as GPIO
-import time
 import aiohttp
 import asyncio
+import time
 
 # Radio Features
 SERVER = '10.0.1.100'
-CLOCK_LED = 12
+CLOCK_LED = 24
 
 # Clock Features
-IN1 = 24
-IN2 = 23
-IN3 = 17
-IN4 = 27
+IN1 = 17
+IN2 = 27
+IN3 = 14
+IN4 = 15
 CYCLE_STEPS = 1280
 
 GPIO.setmode(GPIO.BCM)

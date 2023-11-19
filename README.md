@@ -8,20 +8,20 @@ A project to convert an old Philips RS-100 clock radio into a modern smart speak
 - 1x 28BYJ-48 Stepper Motor + ULN2003 Driver (A$10)
 - 1x Adafruit MAX98357 I<sup>2</sup>S Amplifier (A$10)
 - 1x ER-OLEDM028-1W SPI OLED Display (US$30)
-- 1x warm white LED (A$0.07)
+- 1x 'warm white' LED (A$0.07)
 - 1x 330ohm resistor (A$0.10)
-- 3x 1k resistor (A$0.30)
-- 3x 10k resistor (A$0.30)
-- 2x 2 wire screw terminal (A$3.92)
+- 9x 1k resistor (A$2.70)
+- 9x 10k resistor (A$2.70)
+- 4x 100nF capacitor (A$3.60)
+- 3x 2 wire screw terminal (A$3.90)
 - 1x 3 wire screw terminal (A$2.50)
-- 4x 200nF capacitor (A$0.90)
+- 2x 1/4 size soldered breadboard (A$5)
 - 2x EC11 rotary encoder (A$4.25)
-- 1x 75mm 8ohm speaker (A$7.50) (I put a soldering iron through the original 0.3W 4ohm by accident)
+- 1x 75mm 8ohm speaker (A$7.50)
 - 1x barrel jack panel mount (A$6.75)
-- 1x sacrificial micro USB cable
 - Scrap aluminium for brackets + fasteners
 
-## Power Consumption
+## Max Power Consumption
 - Raspberry Pi Zero WH (5V, 1.2A)
 - 28BYJ-48 Stepper Motor (5V, 240mA)
 - Adafruit MAX98357 (2.5-5V, 650mA)
@@ -30,12 +30,6 @@ A project to convert an old Philips RS-100 clock radio into a modern smart speak
 - DS3231 (3.3V, < 300µA)
 
 Napkin maths... eh? 2.5A 'ought to be enough.
-
-### Power Saving Features
-A few simple things that we can disable which should help reduce standby power consumption. Save the environment, etc, etc.
-- Disable the USB Controller
-- Disable HDMI Output
-- Disable Onboard LEDs
 
 ## Acknowledgements
 Massive shout out to @dpwe's [StepperFlipClock](https://github.com/dpwe/StepperFlipClock/tree/main) respository which provides the basis for 28BYJ-48 stepper motors to replace the failing motors in flip clocks.

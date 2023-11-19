@@ -1,0 +1,33 @@
+mqtt:
+  host: #.#.#.#
+  port: 1883
+  user: ""
+  password: ""
+  topic_prefix: flip_radio
+  ha_discovery:
+    enabled: yes
+
+gpio_modules:
+  - name: rpi
+    module: raspberrypi
+
+digital_inputs:
+  - name: mode
+    module: rpi
+    pin: 16
+    on_payload: "Auto"
+    off_payload: "Manual"
+  - name: tuner
+    module: rpi
+    pin: 1
+    on_payload: "FM"
+    off_payload: "AM"
+  - name: alarm
+    module: rpi
+    pin: 20
+    inverted: yes
+
+digital_outputs:
+  - name: clock_light
+    module: rpi
+    pin: 24
