@@ -14,12 +14,12 @@ gpio_modules:
 digital_inputs:
   - name: mode
     module: rpi
-    pin: 16
+    pin: 1
     on_payload: "Auto"
     off_payload: "Manual"
   - name: tuner
     module: rpi
-    pin: 1
+    pin: 16
     on_payload: "FM"
     off_payload: "AM"
   - name: alarm
@@ -30,4 +30,4 @@ digital_inputs:
 digital_outputs:
   - name: clock_light
     module: rpi
-    pin: 24
+    pin: 23
