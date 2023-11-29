@@ -38,11 +38,16 @@ def volume_encoder(channel):
 def tuner_encoder(channel):
     print("Encoder engaged.")
 
+async def pauseTrack():
+  async with aiohttp.ClientSession() as session:
+    lms = Server(session, LMS_SERVER)
+    player = await lms.async_get_player(name=PLAYER_NAME)
+    await player.async_update()
+    print(player.album)
+
 async def setup():
     async with aiohttp.ClientSession() as session:
       lms = Server(session, LMS_SERVER)
-      player = await lms.async_get_player(name=PLAYER_NAME)
-      await player.async_update()
 
 if __name__ == '__main__':
   try:
