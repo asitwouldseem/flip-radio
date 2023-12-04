@@ -3,7 +3,11 @@ from pysqueezebox import Server
 import aiohttp
 import asyncio
 import RPi.GPIO as GPIO
-from time import sleep
+
+# OLED display
+from luma.core.interface.serial import spi
+from luma.core.render import canvas
+from luma.oled.device import ssd1322
 
 # Define input pins
 BUTTON_VOL = 13
@@ -14,6 +18,10 @@ VOL_DT = 22
 # Define LMS settings
 LMS_SERVER = '10.0.1.100'
 PLAYER_NAME = 'Radio'
+
+# Global variables for OLED display
+serial = spi(device=0, port=0)
+device = ssd1322(serial)
 
 # Global variables for rotary encoder
 vol_counter = 0
@@ -50,6 +58,11 @@ def volume_encoder(channel):
     # Print to terminal for debugging
     print(f"Volume changed to {vol_counter}")
 
+# Cleanup function to clear the OLED display
+def clear_display():
+    with canvas(device) as draw:
+        draw.rectangle(device.bounding_box, outline="black", fill="black")
+
 async def pauseTrack():
     async with aiohttp.ClientSession() as session:
         lms = Server(session, LMS_SERVER)
@@ -67,8 +80,9 @@ async def setup():
         lms = Server(session, LMS_SERVER)
         player = await lms.async_get_player(name=PLAYER_NAME)
 
-        # Print to terminal for debugging
-        print("LMS connection established.")
+        with canvas(device) as draw:
+          draw.rectangle(device.bounding_box, outline="white", fill="black")
+          draw.text((10, 40), "LMS connection established.", fill="white")
 
 if __name__ == '__main__':
     try:
@@ -100,4 +114,5 @@ if __name__ == '__main__':
     except Exception as e:
         print(f"Error: {e}")
     finally:
+        clear_display()
         GPIO.cleanup()
