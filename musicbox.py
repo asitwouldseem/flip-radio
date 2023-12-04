@@ -38,13 +38,17 @@ def volume_encoder(channel):
     if volClkLast is not None:
         if volClk != volClkLast:
             if volDt != volClk:
-                vol_counter += 1
+                vol_counter += 2
             else:
-                vol_counter -= 1
-            print(vol_counter)
+                vol_counter -= 2
     
+    vol_counter = max(0, min(vol_counter, 100))
     volClkLast = volClk
-    sleep(0.01)
+
+    loop.run_in_executor(None, lambda: asyncio.run(setVolume(vol_counter)))
+
+    # Print to terminal for debugging
+    print(f"Volume changed to {vol_counter}")
 
 async def pauseTrack():
     async with aiohttp.ClientSession() as session:
@@ -62,6 +66,9 @@ async def setup():
     async with aiohttp.ClientSession() as session:
         lms = Server(session, LMS_SERVER)
         player = await lms.async_get_player(name=PLAYER_NAME)
+
+        # Print to terminal for debugging
+        print("LMS connection established.")
 
 if __name__ == '__main__':
     try:
