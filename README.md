@@ -12,7 +12,6 @@ A project to convert an old Philips RS-100 clock radio into a modern smart speak
 - 1x 330ohm resistor (A$0.10)
 - 9x 1k resistor (A$2.70)
 - 9x 10k resistor (A$2.70)
-- 4x 100nF capacitor (A$3.60)
 - 3x 2 wire screw terminal (A$3.90)
 - 1x 3 wire screw terminal (A$2.50)
 - 2x 1/4 size soldered breadboard (A$5)
