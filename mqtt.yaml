@@ -26,8 +26,3 @@ digital_inputs:
     module: rpi
     pin: 20
     inverted: yes
-
-digital_outputs:
-  - name: clock_light
-    module: rpi
-    pin: 23
