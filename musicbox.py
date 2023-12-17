@@ -2,6 +2,7 @@
 from pysqueezebox import Server
 import aiohttp
 import asyncio
+import time
 import RPi.GPIO as GPIO
 
 # OLED display
@@ -11,31 +12,27 @@ from luma.oled.device import ssd1322
 
 # Define input pins
 BUTTON_VOL = 13
-BUTTON_TUNER = 0
 VOL_CLK = 6
 VOL_DT = 22
+CLOCK_LED = 23
 
 # Define LMS settings
 LMS_SERVER = '10.0.1.100'
 PLAYER_NAME = 'Radio'
 
-# Global variables for OLED display
+# OLED display
 serial = spi(device=0, port=0)
 device = ssd1322(serial)
 
-# Global variables for rotary encoder
+# Rotary encoders
 vol_counter = 0
+vol_change = 2
 volClkLast = None
 
 # Case I/O
 def pause(channel):
     loop.run_in_executor(None, lambda: asyncio.run(pauseTrack()))
-    
-    # Print to terminal for debugging
-    print("Transport command sent.")
-
-def tuner(channel):
-    loop.run_in_executor(None, lambda: asyncio.run(pauseTrack()))
+    print("Transport control pressed.")
 
 def volume_encoder(channel):
     global vol_counter, volClkLast
@@ -46,9 +43,9 @@ def volume_encoder(channel):
     if volClkLast is not None:
         if volClk != volClkLast:
             if volDt != volClk:
-                vol_counter += 2
+                vol_counter += vol_change
             else:
-                vol_counter -= 2
+                vol_counter -= vol_change
     
     vol_counter = max(0, min(vol_counter, 100))
     volClkLast = volClk
@@ -58,16 +55,28 @@ def volume_encoder(channel):
     # Print to terminal for debugging
     print(f"Volume changed to {vol_counter}")
 
-# Cleanup function to clear the OLED display
 def clear_display():
     with canvas(device) as draw:
         draw.rectangle(device.bounding_box, outline="black", fill="black")
+
+# Interactions with Logitech Media Server
+async def currentTrack():
+    async with aiohttp.ClientSession() as session:
+        lms = Server(session, LMS_SERVER)
+        player = await lms.async_get_player(name=PLAYER_NAME)
+        return await player.title()
 
 async def pauseTrack():
     async with aiohttp.ClientSession() as session:
         lms = Server(session, LMS_SERVER)
         player = await lms.async_get_player(name=PLAYER_NAME)
         await player.async_toggle_pause()
+
+async def currentVolume():
+    async with aiohttp.ClientSession() as session:
+        lms = Server(session, LMS_SERVER)
+        player = await lms.async_get_player(name=PLAYER_NAME)
+        return await player.volume()
 
 async def setVolume(volume):
     async with aiohttp.ClientSession() as session:
@@ -81,20 +90,47 @@ async def setup():
         player = await lms.async_get_player(name=PLAYER_NAME)
 
         with canvas(device) as draw:
-          draw.rectangle(device.bounding_box, outline="white", fill="black")
-          draw.text((10, 40), "LMS connection established.", fill="white")
+          draw.text((10, 40), "Connection established.", fill="white")
+
+        # If we're not playing anything, it'll show this forever. Lame.
+        time.sleep(5)
+        clear_display()
+
+async def main():
+    last_mode = 'stop'
+
+    while True:
+        async with aiohttp.ClientSession() as session:
+            lms = Server(session, LMS_SERVER)
+            player = await lms.async_get_player(name=PLAYER_NAME)
+            await player.async_update()
+
+            if player.mode == 'play' and last_mode != 'play':
+                # Control Clock LED.
+                GPIO.output(CLOCK_LED,GPIO.HIGH)
+
+                # Print song information to OLED.
+                with canvas(device) as draw:
+                    draw.text((5, 25), "Hello World", fill="white")
+
+            elif player.mode == 'stop':
+                GPIO.output(CLOCK_LED,GPIO.LOW)
+                clear_display()
+
+            last_mode = player.mode
+            await asyncio.sleep(1)
 
 if __name__ == '__main__':
     try:
         # Create and run the event loop for setup
         loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
+        asyncio.set_event_loop(loop)        
         loop.run_until_complete(setup())
 
-        # Now set up GPIO and the main event loop
+        # Setup GPIO
         GPIO.setmode(GPIO.BCM)
+        GPIO.setup(CLOCK_LED, GPIO.OUT)
         GPIO.setup(BUTTON_VOL, GPIO.IN)
-        GPIO.setup(BUTTON_TUNER, GPIO.IN)
         GPIO.setup(VOL_CLK, GPIO.IN)
         GPIO.setup(VOL_DT, GPIO.IN)
 
@@ -103,11 +139,10 @@ if __name__ == '__main__':
 
         # Event listeners
         GPIO.add_event_detect(BUTTON_VOL, GPIO.RISING, callback=pause, bouncetime=500)
-        GPIO.add_event_detect(BUTTON_TUNER, GPIO.RISING, callback=tuner, bouncetime=500)
         GPIO.add_event_detect(VOL_CLK, GPIO.BOTH, callback=volume_encoder, bouncetime=10)
 
-        main_loop = asyncio.get_event_loop()
-        main_loop.run_forever()
+        # Run the main loop
+        loop.run_until_complete(main())
 
     except KeyboardInterrupt:
         pass
