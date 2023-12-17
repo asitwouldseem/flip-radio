@@ -32,3 +32,6 @@ Napkin maths... eh? 2.5A 'ought to be enough.
 
 ## Acknowledgements
 Massive shout out to @dpwe's [StepperFlipClock](https://github.com/dpwe/StepperFlipClock/tree/main) respository which provides the basis for 28BYJ-48 stepper motors to replace the failing motors in flip clocks.
+
+### Generative AI
+Because I was building this at the same time as a [silly gift](https://github.com/asitwouldseem/groundhog-day/) some of the stepper motor code was partly produced by Generative AI. I had to adapt it for the Pi rather than Pico, but full disclosure nonetheless.
