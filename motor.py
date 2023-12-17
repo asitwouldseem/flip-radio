@@ -9,7 +9,7 @@ IN3 = 14
 IN4 = 15
 
 # Adjust to match the Copal mechanism
-STEPS_PER_MINUTE = 50
+STEPS_PER_MINUTE = 40
 
 pins = [IN1, IN2, IN3, IN4]
 sequence = [1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]
