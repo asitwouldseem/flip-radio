@@ -65,20 +65,6 @@ Check to see if the Adafruit DAC is visible to Squeezelite. This command should 
 squeezelite -l
 ```
 
-We'll now modify the service specific to (y)our own streaming setup. The Pi Zero can't handle DSF so we're not going to mess with getting DSD up and running. The below configuration works well for my particular setup.
-```
-[Unit]
-Description=Squeezelite headless streaming music client
-
-After=network.target
-
-[Service]
-ExecStart=/usr/bin/squeezelite -o hw:CARD=sndrpihifiberry,DEV=0 -s 10.0.1.100 -n Radio -a 120:4::0                
-
-[Install]
-WantedBy=multi-user.target
-```
-
 Enable Squeezelite from boot.
 ```
 sudo systemctl enable squeezelite.service
