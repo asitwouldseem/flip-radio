@@ -26,8 +26,16 @@ PLAYER_NAME = 'Radio'
 serial = spi(device=0, port=0)
 device = ssd1322(serial)
 
-type1 = ImageFont.truetype('/home/cameron/fonts/WorkSans-SemiBold.ttf', 25)
-type2 = ImageFont.truetype('/home/cameron/fonts/WorkSans-Medium.ttf', 14)
+padding = 5
+top = 0 + padding
+left = 0 + padding
+bottom = device.size[1] - padding
+right = device.size[0] - padding
+middle = device.size[1] / 2
+
+font_title = ImageFont.truetype('/home/cameron/fonts/WorkSans-SemiBold.ttf', 14)
+font_artist = ImageFont.truetype('/home/cameron/fonts/WorkSans-Light.ttf', 12)
+font_info = ImageFont.truetype('/home/cameron/fonts/WorkSans-Light.ttf', 12)
 
 # Rotary encoders
 vol_counter = 0
@@ -103,14 +111,13 @@ async def setup():
         player = await lms.async_get_player(name=PLAYER_NAME)
 
         with canvas(device) as draw:
-          draw.text((10, 50), "Connection established.", font=type2, fill="white")
+          draw.text((left, middle), "Connection established.", font=font_info, anchor="ls", fill="white")
 
         # If we're not playing anything, it'll show this forever. Lame.
         time.sleep(5)
         clear_display()
 
 async def main():
-    last_mode = 'stop'
     last_title = None
 
     while True:
@@ -119,24 +126,23 @@ async def main():
             player = await lms.async_get_player(name=PLAYER_NAME)
             await player.async_update()
 
-            if player.mode == 'play' and last_mode != 'play':
-                GPIO.output(CLOCK_LED,GPIO.HIGH)
+            if player.title != last_title:
+                if player.mode == 'play':
+                    GPIO.output(CLOCK_LED,GPIO.HIGH)
 
-                if player.title: 
-                    if player.title != last_title:
+                    if player.title:
                         with canvas(device) as draw:
-                            draw.text((5, 10), player.title, font=type1, fill="white")
-                            draw.text((5, 45), player.artist, font=type2, fill="white")
-                        last_title = player.title
-                else:
-                    with canvas(device) as draw:
-                        draw.text((10, 50), "No track information.", font=type2, fill="white")
+                            draw.text((left, middle), player.title, font=font_title, anchor="ls", fill="white")
+                            draw.text((left, middle + 15), player.artist, font=font_artist, anchor="ls", fill="white")
+                    else:
+                        with canvas(device) as draw:
+                            draw.text((left, middle), "No track information.", anchor="ls", font=font_info, fill="white")
 
-            elif player.mode == 'stop':
-                GPIO.output(CLOCK_LED,GPIO.LOW)
-                clear_display()
+                elif player.mode == 'stop':
+                    GPIO.output(CLOCK_LED,GPIO.LOW)
+                    clear_display()
 
-            last_mode = player.mode
+            last_title = player.title
             await asyncio.sleep(1)
 
 if __name__ == '__main__':
