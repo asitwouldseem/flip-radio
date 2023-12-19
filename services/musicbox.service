@@ -1,0 +1,12 @@
+[Unit]
+Description=Additional service for interfacing clock IO with LMS
+After=multi-user.target
+
+[Service]
+Type=simple
+User=cameron
+ExecStart=/usr/bin/python /home/cameron/musicbox.py
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
