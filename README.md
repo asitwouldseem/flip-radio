@@ -26,7 +26,7 @@ More to follow soon.
 ...
 
 
-[^1] I am comfortable working on low voltages but not high voltages. This project is low voltage by design. Opening old electronics comes with some risk and care required to discharge things appropriately. Don't be stupid. If you're working on high voltages, please. Call an electrician.
+[^1]: I am comfortable working on low voltages but not high voltages. This project is low voltage by design. Opening old electronics comes with some risk and care required to discharge things appropriately. Don't be stupid. If you're working on high voltages, please. Call an electrician.
 
 ## Bill of Materials
 - 1x Philips RS-100 Clock Radio
