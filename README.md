@@ -10,16 +10,17 @@ This project makes use of the [PySqueezebox](https://github.com/rajlaud/pysqueez
 ## Build
 Oooh boy. This clock was filthy... Before I did anything else, I pulled it apart[^1] and left the cream-coloured plastic out to retrobright in Brisbane's unescapable sunshine. Fellow makers - a warning that Orange Power is great for cleaning muck. But it will also  melt lettering off a large grocery chain's plastic bags with ease. Sigh! Talk about making it harder for myself.
 
-![Dirty flip clock sitting atop red car](/docs/img/original-clock.jpg "Picking up the clock")
-![Two silver trays on outdoor furniture](/docs/img/retro-brite.jpg "Retrobrighting plastic")
+![Dirty flip clock sitting atop red car](/docs/img/original-clock.jpg "Picking up the clock" | width=200)
 
 At this point in the process, I knew the clock didn't flip - but not why it was stubborn to flip. A deep dive into the forums revealed that it's often the AC motors which fail which was certainly the case with this particular clock. Great. Where am I meant to find a replacement motor in 2023?!
 
 I have to make a massive shout out to @dpwe's [StepperFlipClock](https://github.com/dpwe/StepperFlipClock) repository which helped in replacing the failed Copal motor with a 28BYJ-48 stepper motor. I found myself deep in horopalettology forums and found a very active community of hobbyists keeping these old clocks going. A quick trip to my local Jaycar and I had both a stepper motor and real-time clock to hand. Huzzah!
 
-![Split flap mechanism in clock body](/docs/img/initial-fit.jpg "Initial clock mechanism fit")
+![Split flap mechanism in clock body](/docs/img/initial-fit.jpg "Initial clock mechanism fit" | width=200)
 
 A quick test fit discovered another common problem with these mechanisms - the hour split-flap was just a little optimistic at the top of the hour. This is by far the most fiddly work I've done to date so I didn't think to photograph it. There are plenty of great [YouTube tutorials](https://www.youtube.com/watch?v=wzLPRFDi2xg) on how to fix this particular issue.
+
+
 
 More to follow soon.
 ...
